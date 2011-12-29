@@ -73,8 +73,6 @@ To create a new object.
 
 When translation associated record is destroyed all translations are destroyed as well
 
-==
-
 == Scopes
 
 All models with 'has_translations' have 'has_many :model_translations' and 'default_scope :include => :model_translations' so you can take advantage of it and make use of some scopes, for example:
@@ -83,15 +81,15 @@ All models with 'has_translations' have 'has_many :model_translations' and 'defa
     has_translations :title, :body
 
     scope :ordered_by_title, :order => 'article_translations.title'
-    scope :with_title, lambda { |title| { where("article_translations.title = ?", title) } }
+    scope :with_title, lambda { |title| where("article_translations.title = ?", title) }
   end
 
 == TODO
 
 It's an initial implementation for a work in progress project, it's just an initial release but does the basic stuff I need. Help is welcome ;)
 
- * make tests
- * translations models generators
+* make tests
+* translations models generators
 
 
 
