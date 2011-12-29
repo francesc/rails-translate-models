@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "rails-translate-models"
   gem.homepage = "http://github.com/francesc/rails-translate-models"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Simple gem to translate multi-lingual content in Rails models}
+  gem.description = %Q{Simple gem to translate multi-lingual content in Rails models in separate tables for each model (modelname_translations)}
   gem.email = "francesc@francesc.net"
   gem.authors = ["Francesc Pla"]
   # dependencies defined in Gemfile

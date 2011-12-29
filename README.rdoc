@@ -1,19 +1,101 @@
 = rails-translate-models
 
-Description goes here.
+Minimal implementation of model translations for Rails 3.x having a translations table for each model, based on translated_attributes.
 
-== Contributing to rails-translate-models
- 
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
-* Fork the project
-* Start a feature/bugfix branch
-* Commit and push until you are happy with your contribution
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+== Installation
 
-== Copyright
+Add it to your Gemfile:
 
-Copyright (c) 2011 Francesc Pla. See LICENSE.txt for
-further details.
+  gem 'rails-translate-models'
+
+== Setting up
+
+All examples provided will be based on an article model with title and body as translated attributes.
+
+<b>Migration</b>
+
+For each model you have to create a table for the translations, you can do it on model migration, for example:
+
+  class CreateArticles < ActiveRecord::Migration
+    def change
+      create_table :articles do |t|
+        t.timestamps
+      end
+
+      create_table :article_translations do |t|
+        t.integer    :article_id
+        t.string     :language_code
+        t.string     :title
+        t.text       :body
+        t.timestamps
+      end
+
+      add_index :pages_translations, :page_id
+      add_index :pages_translations, [:page_id, :language_code]
+    end
+  end
+
+<b>Specify translated attributes in model</b>
+
+  class Article < ActiveRecord::Base
+    has_translations :title, :body
+  end
+
+== Usage
+
+Self-explained usage given an article with two translations (en / es)
+
+Retrieve data, english as current language:
+
+  a = Article.first
+  a.title
+  => "example title"
+
+Change language and you'll get in spanish
+
+  I18n.locale = :es
+  a.title
+  => "título ejemplo"
+
+Or you can also get any other language using in_language_code for each attribute
+
+  a.title_in_en
+  => "example title"
+
+Note that if the current language doesn't have a translation it always tries to fallback to english then returns nil if it's also not available.
+
+To create a new object.
+
+  a = Article.new
+  a.title = "example title"
+  a.title_in_es = "título ejemplo"
+  a.save
+
+When translation associated record is destroyed all translations are destroyed as well
+
+==
+
+== Scopes
+
+All models with 'has_translations' have 'has_many :model_translations' and 'default_scope :include => :model_translations' so you can take advantage of it and make use of some scopes, for example:
+
+  class Article < ActiveRecord::Base
+    has_translations :title, :body
+
+    scope :ordered_by_title, :order => 'article_translations.title'
+    scope :with_title, lambda { |title| { where("article_translations.title = ?", title) } }
+  end
+
+== TODO
+
+It's an initial implementation for a work in progress project, it's just an initial release but does the basic stuff I need. Help is welcome ;)
+
+ * make tests
+ * translations models generators
+
+
+
+
+
+
 
