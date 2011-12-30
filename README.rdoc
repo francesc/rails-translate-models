@@ -119,6 +119,14 @@ It's an initial implementation for a work in progress project, it's just an init
 * make tests
 * translations models generators
 
+== Similar projects
+
+Not convinced or need a different approach? Try out:
+
+* has_translations (https://github.com/dmitry/has_translations)
+* translated_attributes (https://github.com/grosser/translated_attributes)
+* rails-translate (https://github.com/fesplugas/rails-translate)
+* globalize2 (https://github.com/joshmh/globalize2)
 
 
 
