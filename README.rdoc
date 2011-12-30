@@ -99,11 +99,9 @@ Here's a simple example to make a form to edit the example article model in all 
 form.html.erb
 
   <%= form_for @article do |f| %>
-    <div class="panes">
-      <% I18n.available_locales.each do |locale| %>
-        <%= render "form_translations", {:f => f, :locale => locale } %>
-      <% end %>
-    </div>
+    <% I18n.available_locales.each do |locale| %>
+      <%= render "form_translations", {:f => f, :locale => locale } %>
+    <% end %>
   <% end %>
 
 _form_translations.html.erb partial
