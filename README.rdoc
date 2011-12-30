@@ -116,8 +116,9 @@ _form_translations.html.erb partial
 
 It's an initial implementation for a work in progress project, it's just an initial release but does the basic stuff I need. Help is welcome ;)
 
-* make tests
 * translations models generators
+* fallback as an option
+* complete tests? (now there's some basic testing with minitest)
 
 == Similar projects
 

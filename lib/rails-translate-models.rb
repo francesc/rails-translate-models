@@ -56,7 +56,7 @@ module RailsTranslateModels
       translated_value = if locale
         translated_attributes_for(locale)[attribute]
       else
-        # find translated attribute, first try current locale, then english
+        # find translated attribute, first try current locale, then default_locale
         text = translated_attributes_for(I18n.locale)[attribute] || translated_attributes_for(I18n.default_locale)[attribute]
       end
     end
