@@ -61,7 +61,7 @@ Or you can also get any other language using in_language_code for each attribute
   a.title_in_en
   => "example title"
 
-Note that if the current language doesn't have a translation it always tries to fallback to english then returns nil if it's also not available.
+Note that if the current language doesn't have a translation it always tries to fallback to default locale (I18n.default_locale) then returns nil if it's also not available.
 
 To create a new object.
 
