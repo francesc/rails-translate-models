@@ -12,6 +12,8 @@ module RailsTranslateModels
     translations_klass = Class.new(ActiveRecord::Base) do
       set_table_name translations_table_name
       belongs_to type.to_sym
+      validates_presence_of type.to_sym, :language_code
+      validates_uniqueness_of :language_code, :scope => "#{type}_id"
     end
 
     Object.const_set(translations_klass_name, translations_klass)
@@ -65,8 +67,6 @@ module RailsTranslateModels
       changed_attributes.merge!("#{attribute}_in_#{locale}" => old_value)
       translated_attributes_for(locale)[attribute] = value
       @translated_attributes_changed = true
-      # self.translations_attributes.merge!({ :language_code => locale, attribute.to_sym => value })
-      # raise self.translations.inspect
     end
 
     def translated_attributes
@@ -100,9 +100,10 @@ module RailsTranslateModels
 
     def store_translated_attributes
       return true unless @translated_attributes_changed
-      translations.delete_all
       @translated_attributes.each do |locale, attributes|
-        translations.create!(attributes.merge(:language_code => locale))
+        translation = translations.find_or_initialize_by_language_code(locale.to_s)
+        translation.attributes = translation.attributes.merge(attributes)
+        translation.save!
       end
       @translated_attributes_changed = false
       true
