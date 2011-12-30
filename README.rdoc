@@ -40,7 +40,7 @@ For each model you have to create a table for the translations, you can do it on
     has_translations :title, :body
   end
 
-== Usage
+== Basic usage
 
 Self-explained usage given an article with two translations (en / es)
 
@@ -72,7 +72,7 @@ To create a new object.
 
 When translation associated record is destroyed all translations are destroyed as well
 
-== Scopes
+== Model options
 
 All models with 'has_translations' have 'has_many :model_translations' and 'default_scope :include => :model_translations' so you can take advantage of it and make use of some scopes, for example:
 
@@ -82,6 +82,37 @@ All models with 'has_translations' have 'has_many :model_translations' and 'defa
     scope :ordered_by_title, :order => 'article_translations.title'
     scope :with_title, lambda { |title| where("article_translations.title = ?", title) }
   end
+
+You can also make use of validations, for example:
+
+  class Article < ActiveRecord::Base
+    has_translations :title, :body
+    validates_presence_of :title
+  end
+
+Note all models with 'has_translations' already have the validations for object_id and language_code and also validate the uniqueness of language code for each object_id.
+
+== Form example
+
+Here's a simple example to make a form to edit the example article model in all languages.
+
+form.html.erb
+
+  <%= form_for @article do |f| %>
+    <div class="panes">
+      <% I18n.available_locales.each do |locale| %>
+        <%= render "form_translations", {:f => f, :locale => locale } %>
+      <% end %>
+    </div>
+  <% end %>
+
+_form_translations.html.erb partial
+
+  <label for='article_title_in_<%= locale %>'>Title</label><br />
+  <%= f.text_field "title_in_#{locale}".to_sym %>
+
+  <label for='article_body_in_<%= locale %>'>Content</label><br />
+  <%= f.text_area "body_in_#{locale}".to_sym %>
 
 == TODO
 
