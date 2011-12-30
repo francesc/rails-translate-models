@@ -30,8 +30,7 @@ For each model you have to create a table for the translations, you can do it on
         t.timestamps
       end
 
-      add_index :pages_translations, :page_id
-      add_index :pages_translations, [:page_id, :language_code]
+      add_index :article_translations, [:article_id, :language_code], :unique => true
     end
   end
 
