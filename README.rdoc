@@ -129,7 +129,9 @@ Not convinced or need a different approach? Try out:
 * rails-translate (https://github.com/fesplugas/rails-translate)
 * globalize2 (https://github.com/joshmh/globalize2)
 
+== Other i18n related projects
 
+If you also need to translate routes check out: https://github.com/francesc/rails-translate-routes
 
 
 
