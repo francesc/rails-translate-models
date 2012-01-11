@@ -101,9 +101,11 @@ module RailsTranslateModels
     def store_translated_attributes
       return true unless @translated_attributes_changed
       @translated_attributes.each do |locale, attributes|
-        translation = translations.find_or_initialize_by_language_code(locale.to_s)
-        translation.attributes = translation.attributes.merge(attributes)
-        translation.save!
+        unless attributes.blank?
+          translation = translations.find_or_initialize_by_language_code(locale.to_s)
+          translation.attributes = translation.attributes.merge(attributes)
+          translation.save!
+        end
       end
       @translated_attributes_changed = false
       true
