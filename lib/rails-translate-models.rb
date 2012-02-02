@@ -10,7 +10,7 @@ module RailsTranslateModels
     translations_table_name = translations_klass_name.pluralize.tableize.to_sym
 
     translations_klass = Class.new(ActiveRecord::Base) do
-      set_table_name translations_table_name
+      self.table_name = translations_table_name
       belongs_to type.to_sym
       validates_presence_of type.to_sym, :language_code
       validates_uniqueness_of :language_code, :scope => "#{type}_id"
