@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "rails-translate-models"
-  s.version = "0.0.4"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Francesc Pla"]
-  s.date = "2012-01-11"
+  s.date = "2012-02-02"
   s.description = "Simple gem to translate multi-lingual content in Rails models in separate tables for each model (modelname_translations)"
   s.email = "francesc@francesc.net"
   s.extra_rdoc_files = [
