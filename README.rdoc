@@ -23,7 +23,7 @@ For each model you have to create a table for the translations, you can do it on
       end
 
       create_table :article_translations do |t|
-        t.integer    :article_id
+        t.references :article
         t.string     :language_code
         t.string     :title
         t.text       :body
