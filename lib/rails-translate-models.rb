@@ -12,8 +12,8 @@ module RailsTranslateModels
     translations_klass = Class.new(ActiveRecord::Base) do
       self.table_name = translations_table_name
       belongs_to type.to_sym
-      validates_presence_of type.to_sym, :language_code
-      validates_uniqueness_of :language_code, :scope => "#{type}_id"
+      validates_presence_of type.to_sym, :locale
+      validates_uniqueness_of :locale, :scope => "#{type}_id"
     end
 
     Object.const_set(translations_klass_name, translations_klass)
@@ -102,7 +102,7 @@ module RailsTranslateModels
       return true unless @translated_attributes_changed
       @translated_attributes.each do |locale, attributes|
         unless attributes.blank?
-          translation = translations.find_or_initialize_by_language_code(locale.to_s)
+          translation = translations.find_or_initialize_by_locale(locale.to_s)
           translation.attributes = translation.attributes.merge(attributes)
           translation.save!
         end
@@ -119,7 +119,7 @@ module RailsTranslateModels
 
       translations.each do |t|
         has_translations_options.each do |attribute|
-          translated_attributes_for(t.language_code)[attribute] = eval("t.#{attribute.to_s}")
+          translated_attributes_for(t.locale)[attribute] = eval("t.#{attribute.to_s}")
         end
       end
     end
