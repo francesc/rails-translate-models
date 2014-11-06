@@ -20,7 +20,7 @@ module RailsTranslateModels
 
     # set translations association, scoping, and after_save
     has_many :translations, :class_name => translations_klass_name, :dependent => :destroy
-    default_scope { includes(:translations) }
+    default_scope { eager_load(:translations) }
 
     after_save :store_translated_attributes
 
