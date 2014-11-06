@@ -1,6 +1,6 @@
 = rails-translate-models
 
-Minimal implementation of model translations for Rails 3.x having a translations table for each model, based on translated_attributes.
+Minimal implementation of model translations for Rails 3 and 4 having a translations table for each model, based on translated_attributes.
 
 == Installation
 
