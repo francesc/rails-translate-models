@@ -20,7 +20,7 @@ module RailsTranslateModels
 
     # set translations association, scoping, and after_save
     has_many :translations, :class_name => translations_klass_name, :dependent => :destroy
-    default_scope :include => :translations
+    default_scope { includes(:translations) }
 
     after_save :store_translated_attributes
 
@@ -102,7 +102,7 @@ module RailsTranslateModels
       return true unless @translated_attributes_changed
       @translated_attributes.each do |locale, attributes|
         unless attributes.blank?
-          translation = translations.find_or_initialize_by_language_code(locale.to_s)
+          translation = translations.where(language_code: locale.to_s).first_or_initialize
           translation.attributes = translation.attributes.merge(attributes)
           translation.save!
         end
