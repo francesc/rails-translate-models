@@ -64,7 +64,11 @@ module RailsTranslateModels
     def set_translated_attribute(locale, attribute, value)
       old_value = translated_attributes_for(locale)[attribute]
       return if old_value.to_s == value.to_s
-      changed_attributes.merge!("#{attribute}_in_#{locale}" => old_value)
+      if ActiveRecord::version.version < "4.2.0"
+        changed_attributes.merge!("#{attribute}_in_#{locale}" => old_value)
+      else
+        set_attribute_was("#{attribute}_in_#{locale}", old_value)
+      end
       translated_attributes_for(locale)[attribute] = value
       @translated_attributes_changed = true
     end
